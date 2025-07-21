@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .login-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .login-form input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .login-form input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .login-form button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background-color: #0056b3;
+        }
+        .login-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .login-footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>登录</h2>
+        <form class="login-form" id="loginForm">
+            <input type="text" id="username" placeholder="用户名" required>
+            <input type="password" id="password" placeholder="密码" required onblur="validatePassword()">
+            <input type="password" id="confirmPassword" placeholder="确认密码" required onblur="validateConfirmPassword()">
+            <button type="submit">登录</button>
+            <p class="error-message" id="errorMessage">用户名或密码错误</p>
+            <p class="error-message" id="passwordLengthError">密码长度为8个字符</p>
+            <p class="error-message" id="passwordMatchError">密码和确认密码不一致</p>
+        </form>
+        <div class="login-footer">
+            <p>还没有账号？<a href="register.html">注册</a></p>
+            <p><a href="index.html">返回个人资料</a></p>
+        </div>
+    </div>
+    <script>
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const passwordLengthError = document.getElementById('passwordLengthError');
+            const errorMessage = document.getElementById('errorMessage');
+            const passwordMatchError = document.getElementById('passwordMatchError');
+
+            // 重置错误提示
+            passwordLengthError.style.display = 'none';
+            errorMessage.style.display = 'none';
+            passwordMatchError.style.display = 'none';
+
+            // 验证密码长度
+            if (password && password.length !== 8) {
+                passwordLengthError.style.display = 'block';
+            }
+        }
+
+        function validateConfirmPassword() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordMatchError = document.getElementById('passwordMatchError');
+            const errorMessage = document.getElementById('errorMessage');
+            const passwordLengthError = document.getElementById('passwordLengthError');
+
+            // 重置错误提示
+            passwordMatchError.style.display = 'none';
+            errorMessage.style.display = 'none';
+            passwordLengthError.style.display = 'none';
+
+            // 验证密码和确认密码是否一致
+            if (password && confirmPassword && password !== confirmPassword) {
+                passwordMatchError.style.display = 'block';
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 阻止表单默认提交
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const passwordLengthError = document.getElementById('passwordLengthError');
+            const passwordMatchError = document.getElementById('passwordMatchError');
+
+            // 重置错误提示
+            errorMessage.style.display = 'none';
+            passwordLengthError.style.display = 'none';
+            passwordMatchError.style.display = 'none';
+
+            // 验证密码长度
+            if (password.length !== 8) {
+                passwordLengthError.style.display = 'block';
+                return;
+            }
+
+            // 验证密码和确认密码是否一致
+            if (password !== confirmPassword) {
+                passwordMatchError.style.display = 'block';
+                return;
+            }
+
+            // 模拟验证（用户名 "admin"，密码长度为8且匹配）
+            if (username === 'admin' && password.length === 8 && password === confirmPassword) {
+                // 登录成功，跳转到 index.html
+                window.location.href = 'index.html';
+            } else {
+                // 显示用户名或密码错误
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
+
